@@ -1,0 +1,24 @@
+services:
+  db:
+      image: mariadb
+      ports:
+        - "3306:3306"
+      environment:
+        - MARIADB_DATABASE=${DB_USERNAME}
+        - MARIADB_ROOT_PASSWORD=${DB_PASSWORD}
+      volumes:
+        - db-shortener:/var/lib/mysql
+  phpmyadminLeti:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadminUrl
+    environment:
+      - PMA_HOST=db
+      - UPLOAD_LIMIT=300M
+    ports:
+      - "8003:80"
+    volumes:
+      - /shortenerUrl
+    depends_on:
+      - db
+volumes:
+  db-shortener:
