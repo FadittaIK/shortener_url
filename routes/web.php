@@ -7,5 +7,6 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Home');
 });
-Route::post('url',[UrlController::class,'store']);
-//Route::post('url', [UrlController::class, 'store']);
+Route::post('/shorten-url',[UrlController::class,'store']);
+
+Route::get('/{shortcode}', [UrlController::class, 'redirectToOriginal']);

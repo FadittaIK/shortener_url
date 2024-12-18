@@ -1,53 +1,78 @@
 <template>
-    <div>
-      <header>
-        <h1>Acortador URL</h1>
-        <h5>text</h5>
-      </header>
-      <form @submit.prevent="submit">
-        <input type="text" v-model="form.url" id="url" required>
-        <!-- <n-input round placeholder="https://" v-model="form.url">
-          <template #suffix>
-            <n-button @click="submit" type="submit">
-              Acortar
-            </n-button>
-          </template>
-        </n-input> -->
-        <button type="submit">Acortar</button>
-      </form>
-    </div>
-  </template>
+    <PrincipalLayout>
+        <template #header>
+            <h1 class="text-8xl">Acortador URL</h1>
+            <h3 class="text-4xl">Transforma tus largos enlaces en versiones compactas</h3>
+            <h5 class="text-2xl">Simplifica tus URLs y hazlas más fáciles de compartir.</h5>
+        </template>
+        <Steps/>
+            <form @submit.prevent="submit" class="">
+                <input type="text" v-model="form.url" id="url" required class="rounded">
+                <!-- <n-input round placeholder="https://" v-model="form.url">
+                  <template #suffix>
+                    <n-button @click="submit" type="submit">
+                      Acortar
+                    </n-button>
+                  </template>
+</n-input> -->
+                <button type="submit">Acortar</button>
+            </form>
+            <div v-if="message" class="alert alert">
+                {{ message }}
+            </div>
+            <div v-if="shortUrl" class="alert alert">
+                <p>¡Tu URL corta es:</p>
+                <a :href="fullUrl" target="_blank">{{ fullUrl }}</a>
+            </div>
+    </PrincipalLayout>
+</template>
 
-  <script>
-  import { defineComponent } from 'vue';
-  import { NInput } from 'naive-ui';
-  import { useForm } from '@inertiajs/vue3';
-import { fromJSON } from 'postcss';
+<script>
+import { defineComponent, computed } from 'vue';
+import { NInput } from 'naive-ui';
+import { useForm } from '@inertiajs/vue3';
+import PrincipalLayout from '@Layouts/PrincipalLayout.vue';
+import Steps from '@Components/Steps.vue';
 
-  export default defineComponent({
-    components: {
-      NInput
+export default defineComponent({
+    props: {
+        message: String,
+        shortUrl: String
     },
-    setup() {
-      // Inicializar el formulario
-      const form = useForm({
-        url: ''
-      });
+    data() {
+        return {
+            url: '',
+        };
+    },
+    components: {
+        NInput,
+        PrincipalLayout,
+        Steps
+    },
+    setup(props) {
+        // Inicializar el formulario
+        const form = useForm({
+            url: ''
+        });
 
-      // Función para enviar el formulario
-      const submit = () => {
-        console.log(form.url);
-        form.post('/url'); // Utilizando `form.post` para enviar los datos
-      };
+        // Función para enviar el formulario
+        const submit = () => {
+            form.post('shorten-url');
+        };
+        const fullUrl = computed(() => {
+            return props.shortUrl ? `${window.location.origin}/${props.shortUrl}` : '';
+        });
 
-      return {
-        form,
-        submit
-      };
+        return {
+            form,
+            submit,
+            fullUrl
+        };
+
     }
-  });
-  </script>
+});
+</script>
 
-  <style lang="">
+<style lang="">
   /* Estilos opcionales */
   </style>
