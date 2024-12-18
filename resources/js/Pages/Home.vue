@@ -6,8 +6,8 @@
             <h5 class="text-2xl">Simplifica tus URLs y hazlas más fáciles de compartir.</h5>
         </template>
         <Steps/>
-            <form @submit.prevent="submit" class="">
-                <input type="text" v-model="form.url" id="url" required class="rounded">
+            <form @submit.prevent="submit" class="flex ">
+                <input type="text" v-model="form.url" id="url" required class="rounded w-full h-xl placeholder:text-slate-400 p-2" placeholder="https://...">
                 <!-- <n-input round placeholder="https://" v-model="form.url">
                   <template #suffix>
                     <n-button @click="submit" type="submit">
@@ -15,7 +15,7 @@
                     </n-button>
                   </template>
 </n-input> -->
-                <button type="submit">Acortar</button>
+                <button type="submit" class="p-2 bg-black text-white">Acortar</button>
             </form>
             <div v-if="message" class="alert alert">
                 {{ message }}

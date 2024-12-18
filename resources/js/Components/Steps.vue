@@ -1,5 +1,5 @@
 <template lang="">
-    <div>
+    <div class="p-5">
        <ul class="flex flex-row">
        <li v-for="(step, index) in steps" class="p-2" ::key="index">
       <span class="px-3 bg-stone-200 rounded-xl">{{index +1}}</span>  {{step}}
